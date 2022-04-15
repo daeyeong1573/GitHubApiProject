@@ -1,18 +1,24 @@
 package org.software.githubapiproject.adpater
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubapiproject.R
 import com.example.githubapiproject.databinding.SearchUserItemBinding
 import org.software.githubapiproject.data.Item
+import org.software.githubapiproject.viewmodel.SearchViewModel
 
-class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(SearchListDiffUtil) {
+class SearchListAdapter(private val vm : SearchViewModel,private val context : Context) : ListAdapter<Item, SearchListAdapter.ViewHolder>(SearchListDiffUtil) {
 
     companion object SearchListDiffUtil: DiffUtil.ItemCallback<Item>(){
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
             //각 아이템들의 고유한 값을 비교해야 한다.
-            return oldItem.login == newItem.login
+            return oldItem.repos_url == newItem.repos_url
         }
 
         override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -21,19 +27,33 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(Search
     }
 
     inner class ViewHolder(private val binding: SearchUserItemBinding): RecyclerView.ViewHolder(binding.root) {
-
-
+        fun bind(item: Item){
+            binding.item = item
+            binding.executePendingBindings()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<SearchUserItemBinding>(
+            layoutInflater,
+            viewType,
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+        return R.layout.search_user_item
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(getItem(position))
+
+        //item 간의 사이 조절
+        val layoutParams = holder.itemView.layoutParams
+        layoutParams.height = 200
+        holder.itemView.requestLayout()
     }
 }
