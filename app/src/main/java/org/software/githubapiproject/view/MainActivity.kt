@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.example.githubapiproject.R
 import com.example.githubapiproject.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import org.software.githubapiproject.adpater.SearchListAdapter
 import org.software.githubapiproject.viewmodel.SearchViewModel
 
 @AndroidEntryPoint
@@ -19,7 +20,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.vm = vm
+        binding.lifecycleOwner = this
+        setRecycler()
         searchFn()
+    }
+
+    private fun setRecycler(){
+        val adapter = SearchListAdapter(vm,this@MainActivity)
+        binding.searchRecycler.adapter = adapter
+        binding.searchRecycler.setHasFixedSize(true)
     }
 
     //검색 함수
