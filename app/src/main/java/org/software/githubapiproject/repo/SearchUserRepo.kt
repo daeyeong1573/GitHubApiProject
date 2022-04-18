@@ -10,4 +10,5 @@ import javax.inject.Inject
 
 class SearchUserRepo @Inject constructor(private val api : GitHubApi){
     suspend fun searchUser(user:String) = api.getSearchResponse(user)
+    suspend fun getUserInfo(user : String) = api.getUserInfo(user)
 }
