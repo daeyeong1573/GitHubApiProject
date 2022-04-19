@@ -1,68 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
-
+        <variable
+            name="item"
+            type="org.software.githubapiproject.data.Item" />
     </data>
 
     <LinearLayout
-        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_marginTop="15dp"
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="340dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
             android:shadowColor="#6A6868"
             app:cardCornerRadius="15dp"
             app:cardElevation="2dp">
 
             <RelativeLayout
+                android:background="@color/purple_500"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_background"
-                android:backgroundTint="@color/white">
+                android:layout_height="match_parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_img"
+                    imageLoad="@{item.avatar_url}"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:padding="5dp"
                     tools:src="@drawable/ic_launcher_background" />
 
-
-
-                <TextView
-                    android:id="@+id/nick_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@+id/profile_img"
-                    android:textColor="@color/black"
-                    tools:text="오병진" />
 
                 <TextView
                     android:id="@+id/login_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nick_name"
                     android:layout_marginLeft="50dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="25dp"
                     android:layout_toRightOf="@+id/profile_img"
+                    android:text="@{item.login}"
                     android:textColor="@color/black"
                     tools:text="로그인 아이디" />
-
-
-
 
             </RelativeLayout>
 
