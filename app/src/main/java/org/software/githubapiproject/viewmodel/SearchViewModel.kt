@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.software.githubapiproject.data.Item
+import org.software.githubapiproject.data.UserInfo
 import org.software.githubapiproject.repo.SearchUserRepo
 import java.lang.Exception
 import javax.inject.Inject
@@ -23,6 +24,12 @@ class SearchViewModel @Inject constructor(private val repository: SearchUserRepo
     private val _loading = MutableLiveData<Boolean>()
     val loading : LiveData<Boolean> get() = _loading
 
+    private val _total = MutableLiveData<Int>()
+    val total : LiveData<Int> get() = _total
+
+    private val _visible = MutableLiveData<Boolean>()
+    val visible : LiveData<Boolean> get() = _visible
+
     init {
         _loading.value = false
     }
@@ -33,8 +40,10 @@ class SearchViewModel @Inject constructor(private val repository: SearchUserRepo
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.searchUser(user)
             if (response.isSuccessful) {
+                _visible.postValue(true)
                 _loading.postValue(false)
                 _list.postValue(response.body()!!.items)
+                _total.postValue(response.body()!!.total_count)
                 Log.d(TAG, "getSearchList: ${response.body()!!.items.size}")
             } else{
                 _loading.postValue(false)
@@ -42,6 +51,9 @@ class SearchViewModel @Inject constructor(private val repository: SearchUserRepo
             }
         }
     }
+
+
+
 }
 
 
