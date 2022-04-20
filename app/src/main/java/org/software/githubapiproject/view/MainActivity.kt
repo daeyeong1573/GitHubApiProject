@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.example.githubapiproject.R
 import com.example.githubapiproject.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.software.githubapiproject.adpater.SearchListAdapter
