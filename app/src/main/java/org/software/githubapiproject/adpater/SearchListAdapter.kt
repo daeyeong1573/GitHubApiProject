@@ -1,10 +1,13 @@
 package org.software.githubapiproject.adpater
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +16,7 @@ import com.example.githubapiproject.databinding.SearchUserItemBinding
 import org.software.githubapiproject.data.Item
 import org.software.githubapiproject.viewmodel.SearchViewModel
 
-class SearchListAdapter(private val vm : SearchViewModel,private val context : Context) : ListAdapter<Item, SearchListAdapter.ViewHolder>(SearchListDiffUtil) {
+class SearchListAdapter(private val vm : SearchViewModel,private val context : Context) : PagingDataAdapter<Item, SearchListAdapter.ViewHolder>(SearchListDiffUtil) {
 
     companion object SearchListDiffUtil: DiffUtil.ItemCallback<Item>(){
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -27,7 +30,7 @@ class SearchListAdapter(private val vm : SearchViewModel,private val context : C
     }
 
     inner class ViewHolder(private val binding: SearchUserItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Item){
+        fun bind(item: Item,position: Int){
             binding.item = item
             binding.executePendingBindings()
         }
@@ -49,7 +52,7 @@ class SearchListAdapter(private val vm : SearchViewModel,private val context : C
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it,position) }
 
         //item 간의 사이 조절
         val layoutParams = holder.itemView.layoutParams
